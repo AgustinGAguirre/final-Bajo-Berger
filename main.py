@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from http import HTTPStatus
 import sys
+import json
+import sqlite3
 
 app = Flask(__name__)
 
@@ -16,29 +18,36 @@ usuarios_conocidos = [
 ]
 
 
+
 movies = [
     {
         "id": 1,
-        "pelicula": "Jurassic Park",
+        "name": "Jurassic Park",
         "director": "Steven Spielger",
         "genero": "Accion",
         "image": "imagen1.png",
     },
     {
         "id": 2,
-        "pelicula": "V for Vendetta",
+        "name": "V for Vendetta",
         "director": "James McTeigue",
         "genero": "Thriller",
         "image": "",
     },
     {
         "id": 3,
-        "pelicula": "The Avengers",
+        "name": "The Avengers",
         "director": "Joe Russo",
         "genero": "Accion",
         "image": "",
     }
 ]
+
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
 def auth(mail, password):
@@ -48,48 +57,67 @@ def auth(mail, password):
 
 @app.route("/api/movies", methods=['GET'])
 def get_movies():
-    response = movies
-    director = request.args.get('director')
-    if (director is not None):
-        response = filter(lambda movie: movie["director"] == director, response)
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM movies")
+        data = cursor.fetchall()
 
-    filterWithImage = request.args.get('filterWithImage', default=False, type=lambda v: v.lower() == 'true')
-    #filter movies by empty image key
-    if (filterWithImage):
-        response = filter(lambda movie: movie["image"] != "", response)
+    conn.close()
+    return jsonify(data)
 
-    return jsonify(list(response))
+@app.route("/api/movies_with_image", methods=['GET'])
+def get_movies_with_image():
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM movies WHERE image <> ''")
+        data = cursor.fetchall()
+
+    conn.close()
+    return jsonify(data)
+
+@app.route("/api/movies_by_director/<director>", methods=['GET'])
+def get_movies_by_director(director):
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM movies WHERE director = ?", (director,))
+        data = cursor.fetchall()
+
+    conn.close()
+    return jsonify(data)
 
 
 @app.route("/api/movies/<id>", methods=['GET'])
 def get_movies_by_id(id):
-    int_id = int(id)
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM movies WHERE id = ?", (id,))
+        data = cursor.fetchall()
 
-    for movie in movies:
-        if movie["id"] == int_id:
-            return jsonify(movie)
-
-    return jsonify({}), HTTPStatus.BAD_REQUEST
+    conn.close()
+    return jsonify(data)
 
 @app.route("/api/directors", methods=['GET'])
 def get_director():
-    directors = list()
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT DISTINCT director FROM movies GROUP BY director")
+        data = cursor.fetchall()
+        flat_data = [item for sublist in data for item in sublist]
 
-    for movie in movies:
-        directors.append(movie["director"])
-
-    return jsonify(directors)
+    conn.close()
+    return jsonify(flat_data)
 
 
-@app.route("/api/generos", methods=['GET'])
+@app.route("/api/genres", methods=['GET'])
 def get_generos():
-    generos = list()
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT DISTINCT genre FROM movies GROUP BY genre")
+        data = cursor.fetchall()
+        flat_data = [item for sublist in data for item in sublist]
 
-    for movie in movies:
-        generos.append(movie["genero"])
-
-    generos_unique = list(set(generos))
-    return jsonify(generos_unique)
+    conn.close()
+    return jsonify(flat_data)
 
 @app.route("/api/movie", methods=['POST'])
 def post_movie():
@@ -97,7 +125,7 @@ def post_movie():
 
     movie = {
         "id": data["id"],
-        "pelicula": data["pelicula"],
+        "name": data["name"],
         "director": data["director"]
     }
 
