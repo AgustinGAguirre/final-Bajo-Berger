@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from http import HTTPStatus
 
+
 app = Flask(__name__)
 
 usuarios_conocidos = [
@@ -42,7 +43,7 @@ def auth(mail, password):
 
 @app.route("/", methods=['GET'])
 def get_movies():
-    return jsonify(movies)
+    return jsonify(movies[-9: 0])
 
 
 @app.route("/movies/<id>", methods=['GET'])
@@ -106,4 +107,4 @@ def delete_movie(id):
 
     return 'error'
 
-app.run()
+app.run(host='127.0.0.1', port=3000)
