@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from http import HTTPStatus
-
+import sys
 
 app = Flask(__name__)
 
@@ -20,17 +20,23 @@ movies = [
     {
         "id": 1,
         "pelicula": "Jurassic Park",
-        "director": "Steven Spielger"
+        "director": "Steven Spielger",
+        "genero": "Accion",
+        "image": "imagen1.png",
     },
     {
         "id": 2,
         "pelicula": "V for Vendetta",
-        "director": "James McTeigue"
+        "director": "James McTeigue",
+        "genero": "Thriller",
+        "image": "",
     },
     {
         "id": 3,
         "pelicula": "The Avengers",
-        "director": "Joe Russo"
+        "director": "Joe Russo",
+        "genero": "Accion",
+        "image": "",
     }
 ]
 
@@ -40,13 +46,22 @@ def auth(mail, password):
             password == usuarios_conocidos['password']:
         return 
 
-
-@app.route("/", methods=['GET'])
+@app.route("/api/movies", methods=['GET'])
 def get_movies():
-    return jsonify(movies[-9: 0])
+    response = movies
+    director = request.args.get('director')
+    if (director is not None):
+        response = filter(lambda movie: movie["director"] == director, response)
+
+    filterWithImage = request.args.get('filterWithImage', default=False, type=lambda v: v.lower() == 'true')
+    #filter movies by empty image key
+    if (filterWithImage):
+        response = filter(lambda movie: movie["image"] != "", response)
+
+    return jsonify(list(response))
 
 
-@app.route("/movies/<id>", methods=['GET'])
+@app.route("/api/movies/<id>", methods=['GET'])
 def get_movies_by_id(id):
     int_id = int(id)
 
@@ -56,18 +71,27 @@ def get_movies_by_id(id):
 
     return jsonify({}), HTTPStatus.BAD_REQUEST
 
-
-@app.route("/movies/director", methods=['GET'])
-def get_director(movies):
+@app.route("/api/directors", methods=['GET'])
+def get_director():
     directors = list()
 
-    for movie in movies.items:
+    for movie in movies:
         directors.append(movie["director"])
 
     return jsonify(directors)
 
 
-@app.route("/", methods=['POST'])
+@app.route("/api/generos", methods=['GET'])
+def get_generos():
+    generos = list()
+
+    for movie in movies:
+        generos.append(movie["genero"])
+
+    generos_unique = list(set(generos))
+    return jsonify(generos_unique)
+
+@app.route("/api/movie", methods=['POST'])
 def post_movie():
     data = request.get_json()
 
@@ -82,7 +106,7 @@ def post_movie():
     return jsonify(movies)
 
 
-@app.route("/movies/<id>", methods=["PUT"])
+@app.route("/api/movies/<id>", methods=["PUT"])
 def put_info(id):
     int_id = int(id)
     data = request.get_json()
@@ -96,7 +120,7 @@ def put_info(id):
     return 'error'
 
 
-@app.route('/movies/<id>', methods=['DELETE'])
+@app.route('/api/movies/<id>', methods=['DELETE'])
 def delete_movie(id):
     int_id = int(id)
 
