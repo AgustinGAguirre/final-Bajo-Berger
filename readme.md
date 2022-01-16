@@ -49,3 +49,13 @@ Crear una pelicula
 ```
 [POST] /api/movies
 ```
+
+Editar una pelicula
+```
+[PUT] /api/movies/<id>
+```
+
+Eliminar una pelicula
+```
+[DELETE] /api/movies/<id>
+```
