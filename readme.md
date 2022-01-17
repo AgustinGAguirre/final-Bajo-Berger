@@ -45,17 +45,17 @@ Listado de generos
 [GET] /api/genres
 ```
 
-Crear una pelicula
+Alta de una pelicula
 ```
 [POST] /api/movies
 ```
 
-Editar una pelicula
-```
-[PUT] /api/movies/<id>
-```
-
-Eliminar una pelicula
+Baja de una pelicula
 ```
 [DELETE] /api/movies/<id>
+```
+
+Modificación de una pelicula
+```
+[PUT] /api/movies/<id>
 ```
