@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="public/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Nesflis</title>
+  </head>
+  <body>
+    <header>
+      <img
+        src="public/images/nesflis.png"
+        alt="Logo Nesflis"
+        height="100px"
+        width="100px"
+      />
+      <h1>EL NESFLIS</h1>
+    </header>
+
+    <nav>
+      <a href="/">Home</a>
+      <a href="/movies">Peliculas</a>
+    </nav>
+
+    <div id="container">
+      {% block content %} {% endblock %}
+    </div>
+
+    <footer></footer>
+  </body>
+  <script src="script.js"></script>
+  <script>
+    window.addEventListener("load", getPrimeraPagina(event));
+  </script>
+</html>

@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+<aside id="peliculas">
+  <h2>Todas las peliculas</h2>
+  {% for movie in movies %}
+  <div>Hello {{ movie["name"] }}!</div>
+  {% endfor %}
+  <br />
+</aside>
+{% endblock %}

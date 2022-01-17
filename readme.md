@@ -6,6 +6,15 @@ Requisitos:
 
 Correr el proyecto:
 
+Inicializar y configurar base de datos
+
+```
+    python init_db.py
+```
+
+
+Iniciar servidor
+
 ```
     export FLASK_APP=main.py
     export FLASK_ENV=development

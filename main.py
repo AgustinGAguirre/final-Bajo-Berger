@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from http import HTTPStatus
 import sys
 import traceback
@@ -36,6 +36,34 @@ def row_to_dict(cursor: sqlite3.Cursor, row: sqlite3.Row) -> dict:
     for idx, col in enumerate(cursor.description):
         data[col[0]] = row[idx]
     return data
+
+@app.route('/public/<path:path>')
+def send_js(path):
+    return send_from_directory('public', path)
+
+@app.route("/")
+def home():
+    movies = []
+    with sqlite3.connect('database.db') as conn:
+        conn.row_factory = row_to_dict
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM movies")
+        movies = cursor.fetchall()
+
+    conn.close()
+    return render_template("home.html", movies=movies)
+
+@app.route("/movies")
+def movies():
+    movies = []
+    with sqlite3.connect('database.db') as conn:
+        conn.row_factory = row_to_dict
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM movies LIMIT 10")
+        movies = cursor.fetchall()
+
+    conn.close()
+    return render_template("movies.html", movies=movies)
 
 
 @app.route("/api/movies", methods=['GET'])
