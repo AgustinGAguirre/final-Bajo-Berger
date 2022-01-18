@@ -9,15 +9,15 @@ with open('db/schema.sql') as f:
 cur = connection.cursor()
 
 cur.execute("INSERT INTO movies (name, director, genre, image) VALUES (?, ?, ?, ?)",
-            ('Jurassic Park', 'Steven Spielger', 'Accion', 'imagen1.png')
+            ('Jurassic Park', 'Steven Spielger', 'Accion', 'public/images/movies/jurassic.jpg')
             )
 
 cur.execute("INSERT INTO movies (name, director, genre, image) VALUES (?, ?, ?, ?)",
-            ('V for Vendetta', 'James McTeigue', 'Thriller', '')
+            ('V for Vendetta', 'James McTeigue', 'Thriller', 'public/images/movies/vendetta.jpg')
             )
 
 cur.execute("INSERT INTO movies (name, director, genre, image) VALUES (?, ?, ?, ?)",
-            ('The Avengers', 'Joe Russo', 'Accion', 'imagen3.png')
+            ('The Avengers', 'Joe Russo', 'Accion', 'public/images/movies/avengers.jpg')
             )
 
 connection.commit()

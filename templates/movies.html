@@ -3,6 +3,12 @@
   <h2>Todas las peliculas</h2>
   {% for movie in movies %}
   <div>Hello {{ movie["name"] }}!</div>
+  <div>
+     <img
+        src={{ movie["image"] }}
+        alt="Logo Nesflis"
+     />
+  </div>
   {% endfor %}
   <br />
 </aside>

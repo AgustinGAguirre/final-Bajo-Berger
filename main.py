@@ -199,4 +199,4 @@ def delete_movie(id):
         return jsonify({"error": "No se pudo eliminar la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
-app.run(host='127.0.0.1', port=3000)
+app.run(host='127.0.0.1', port=5000)
