@@ -22,6 +22,7 @@ usuarios_conocidos = [
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
+
     return conn
 
 
@@ -33,8 +34,10 @@ def auth(mail, password):
 
 def row_to_dict(cursor: sqlite3.Cursor, row: sqlite3.Row) -> dict:
     data = {}
+
     for idx, col in enumerate(cursor.description):
         data[col[0]] = row[idx]
+
     return data
 
 @app.route('/public/<path:path>')
@@ -44,6 +47,7 @@ def send_js(path):
 @app.route("/")
 def home():
     movies = []
+
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
@@ -51,11 +55,13 @@ def home():
         movies = cursor.fetchall()
 
     conn.close()
+
     return render_template("home.html", movies=movies)
 
 @app.route("/movies")
 def movies():
     movies = []
+
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
@@ -63,12 +69,14 @@ def movies():
         movies = cursor.fetchall()
 
     conn.close()
+
     return render_template("movies.html", movies=movies)
 
 
 @app.route("/api/movies", methods=['GET'])
 def get_movies():
     movies = []
+
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
@@ -76,6 +84,7 @@ def get_movies():
         movies = cursor.fetchall()
 
     conn.close()
+
     return jsonify(movies)
 
 
@@ -88,6 +97,7 @@ def get_movies_with_image():
         movies = cursor.fetchall()
 
     conn.close()
+
     return jsonify(movies)
 
 
@@ -100,6 +110,7 @@ def get_movies_by_director(director):
         movies = cursor.fetchall()
 
     conn.close()
+
     return jsonify(movies[0])
 
 
@@ -112,6 +123,7 @@ def get_movies_by_id(id):
         movie = cursor.fetchall()
 
     conn.close()
+
     return jsonify(movie[0])
 
 
@@ -126,6 +138,7 @@ def get_director():
         flat_data = [item for sublist in directors for item in sublist]
 
     conn.close()
+
     return jsonify(flat_data)
 
 
@@ -139,6 +152,7 @@ def get_generos():
         flat_data = [item for sublist in genres for item in sublist]
 
     conn.close()
+
     return jsonify(flat_data)
 
 
@@ -150,19 +164,30 @@ def post_movie():
     try:
         with sqlite3.connect('database.db') as conn:
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO movies (name, director, genre, image) VALUES (?, ?, ?, ?)",
-                           (params['name'], params['director'],
-                            params['genre'], params['image'])
+            cursor.execute("INSERT INTO movies (name, year, genre, director, synopsis, image) VALUES (?, ?, ?, ?, ?, ?)",
+                           (
+                            params['name'],
+                            params['year'],
+                            params['genre'],
+                            params['synopsis'],
+                            params['director'],
+                            params['image']
+                            )
                            )
             json_docs = []
+
             for doc in cursor:
                 json_doc = jsonify(doc)
                 json_docs.append(json_doc)
+
             conn.commit()
+
             return jsonify(json_docs), HTTPStatus.CREATED
+
     except Exception as e:
         exc_info = sys.exc_info()
         print(exc_info)
+
         return jsonify({"error": "No se pudo crear la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
@@ -173,15 +198,25 @@ def update_movie(id):
     try:
         with sqlite3.connect('database.db') as conn:
             cursor = conn.cursor()
-            cursor.execute("UPDATE movies SET name = ?, director = ?, genre = ?, image = ? WHERE id = ?",
-                           (params['name'], params['director'],
-                            params['genre'], params['image'], id)
-                           )
+            cursor.execute("UPDATE movies SET name = ?, year = ?, genre = ?, director = ?, synopsis = ?, image = ? WHERE id = ?",
+                           (
+                            params['name'],
+                            params['year'],
+                            params['genre'],
+                            params['synopsis'],
+                            params['director'],
+                            params['image'],
+                            id
+                            )
+            )
             conn.commit()
+
             return jsonify({"ok": True}), HTTPStatus.CREATED
+
     except Exception as e:
         exc_info = sys.exc_info()
         print(exc_info)
+
         return jsonify({"error": "No se pudo crear la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
@@ -192,10 +227,13 @@ def delete_movie(id):
             cursor = conn.cursor()
             cursor.execute("DELETE from movies where id = ?", (id,))
             conn.commit()
+
             return jsonify({"ok": True}), HTTPStatus.OK
+
     except Exception as e:
         exc_info = sys.exc_info()
         print(exc_info)
+
         return jsonify({"error": "No se pudo eliminar la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
