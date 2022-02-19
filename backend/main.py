@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, redirect, request, send_from_directory
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from http import HTTPStatus
 import sys
 import sys
@@ -8,6 +8,11 @@ import sqlite3
 app = Flask(__name__)
 CORS(app)
 app.config["JWT_SECRET"] = "super-secret"
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+USERS = dict()
+USERS["julio"] = "1234"
+USERS["agus"] = "abcd"
 
 
 def get_db_connection():
@@ -23,26 +28,27 @@ def row_to_dict(cursor: sqlite3.Cursor, row: sqlite3.Row) -> dict:
     return data
 
 
-@ app.route('/public/<path:path>')
+@app.route('/public/<path:path>')
 def send_js(path):
     return send_from_directory('public', path)
 
 
-# @app.route("/api/login", methods=['POST'])
-# def login():
-#     username = request.form['username']
-#     password = request.form['password']
-#     with sqlite3.connect('database.db') as conn:
-#         conn.row_factory = row_to_dict
-#         cursor = conn.cursor()
-#         cursor.execute(
-#             "SELECT * FROM users WHERE username = ?", (username,))
-#         users = cursor.fetchall()
-#         user = users[0]
-#         if user and user.password == password:
+@app.route("/api/login", methods=['POST'])
+def login():
+    params = request.get_json()
+    username = params['username']
+    password = params['password']
+
+    if (not username in USERS):
+        return jsonify(), HTTPStatus.BAD_REQUEST
+
+    if USERS[username] == password:
+        return jsonify({"token": "XXX"})
+
+    return jsonify(), HTTPStatus.BAD_REQUEST
 
 
-@ app.route("/api/movies", methods=['GET'])
+@app.route("/api/movies", methods=['GET'])
 def get_movies():
     movies = []
     with sqlite3.connect('database.db') as conn:
@@ -55,7 +61,7 @@ def get_movies():
     return jsonify(movies)
 
 
-@ app.route("/api/movies_with_image", methods=['GET'])
+@app.route("/api/movies_with_image", methods=['GET'])
 def get_movies_with_image():
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
@@ -67,7 +73,7 @@ def get_movies_with_image():
     return jsonify(movies)
 
 
-@ app.route("/api/movies_by_director/<director>", methods=['GET'])
+@app.route("/api/movies_by_director/<director>", methods=['GET'])
 def get_movies_by_director(director):
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
@@ -79,7 +85,7 @@ def get_movies_by_director(director):
     return jsonify(movies[0])
 
 
-@ app.route("/api/movies/<id>", methods=['GET'])
+@app.route("/api/movies/<id>", methods=['GET'])
 def get_movies_by_id(id):
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
@@ -91,7 +97,7 @@ def get_movies_by_id(id):
     return jsonify(movie[0])
 
 
-@ app.route("/api/directors", methods=['GET'])
+@app.route("/api/directors", methods=['GET'])
 def get_director():
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
@@ -105,7 +111,7 @@ def get_director():
     return jsonify(flat_data)
 
 
-@ app.route("/api/genres", methods=['GET'])
+@app.route("/api/genres", methods=['GET'])
 def get_generos():
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
@@ -118,7 +124,7 @@ def get_generos():
     return jsonify(flat_data)
 
 
-@ app.route("/api/movies", methods=['POST'])
+@app.route("/api/movies", methods=['POST'])
 def post_movie():
     params = request.get_json()
     print("params: ", params)
@@ -142,7 +148,7 @@ def post_movie():
         return jsonify({"error": "No se pudo crear la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
-@ app.route("/api/movies/<id>", methods=['PUT'])
+@app.route("/api/movies/<id>", methods=['PUT'])
 def update_movie(id):
     params = request.get_json()
 
@@ -161,7 +167,7 @@ def update_movie(id):
         return jsonify({"error": "No se pudo crear la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
-@ app.route("/api/movies/<id>", methods=['DELETE'])
+@app.route("/api/movies/<id>", methods=['DELETE'])
 def delete_movie(id):
     try:
         with sqlite3.connect('database.db') as conn:

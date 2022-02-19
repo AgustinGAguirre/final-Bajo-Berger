@@ -20,6 +20,12 @@ Iniciar servidor en Mac
     export FLASK_ENV=development
     flask run
 ```
+
+o simplemente llamar al archivo siguiente archivo
+```
+    sh start.sh
+```
+
 -----
 ## Lista de API endpoints:
 -----

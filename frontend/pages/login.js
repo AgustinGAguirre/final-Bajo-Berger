@@ -5,9 +5,10 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
+      const response = await axios.post("http://127.0.01:5000/api/login", {
         username,
         password
       });
@@ -30,8 +31,8 @@ export default function Home() {
           <h2>Login</h2>
           <br />
           <form action="/login" method="POST" onSubmit={login}>
-            <p>Usuario: <input name="username" /></p>
-            <p>Contraseña: <input name="password" /></p>
+            <p>Usuario: <input onChange={e => setUsername(e.target.value)} name="username" /></p>
+            <p>Contraseña: <input onChange={e => setPassword(e.target.value)} name="password" /></p>
             {!!error && (<p>{error}</p>)}
             <button type="submit">Ingresar</button>
           </form>
