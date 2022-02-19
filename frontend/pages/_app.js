@@ -1,6 +1,14 @@
 import '../styles/globals.css'
+import { getToken, removeToken } from '../utils';
 
 function MyApp({ Component, pageProps }) {
+  let token = getToken();
+
+  const handleLogout = () => {
+    removeToken();
+    window.location = "/login";
+  }
+
   return (
     <>
       <header>
@@ -15,7 +23,13 @@ function MyApp({ Component, pageProps }) {
 
       <nav>
         <a href="/">Home</a>
-        <a href="/login">Login</a>
+        {!token && (
+          <a href="/login">Login</a>
+        )}
+        {!!token && (
+          <a href="#" onClick={handleLogout}>Logout</a>
+        )}
+
       </nav>
       <Component {...pageProps} />
       <footer></footer>

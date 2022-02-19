@@ -1,19 +1,22 @@
 import { useState } from "react";
 import axios from "axios";
+import { removeToken, setToken } from "../utils";
 
-export default function Home() {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const login = async (e) => {
     e.preventDefault();
+    removeToken();
     try {
       const response = await axios.post("http://127.0.01:5000/api/login", {
         username,
         password
       });
       if (response.status === 200) {
-        localStorage.setItem("token", response.token);
+        setToken(response.data.token);
+        window.location = "/"
         return null;
       }
       setError("Hubo un problema al ingresar, por favor intente nuevamente")
@@ -31,8 +34,8 @@ export default function Home() {
           <h2>Login</h2>
           <br />
           <form action="/login" method="POST" onSubmit={login}>
-            <p>Usuario: <input onChange={e => setUsername(e.target.value)} name="username" /></p>
-            <p>Contraseña: <input onChange={e => setPassword(e.target.value)} name="password" /></p>
+            <p>Usuario: <input type="text" onChange={e => setUsername(e.target.value)} name="username" /></p>
+            <p>Contraseña: <input type="password" onChange={e => setPassword(e.target.value)} name="password" /></p>
             {!!error && (<p>{error}</p>)}
             <button type="submit">Ingresar</button>
           </form>
@@ -41,3 +44,5 @@ export default function Home() {
     </>
   )
 }
+
+export default Login

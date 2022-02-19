@@ -1,6 +1,6 @@
 ## Getting Started
 
-```bash
+```terminal
 npm install
 npm run dev
 ```

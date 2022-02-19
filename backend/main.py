@@ -51,10 +51,14 @@ def login():
 @app.route("/api/movies", methods=['GET'])
 def get_movies():
     movies = []
+    director = request.args.get('director')
+    query = "SELECT * FROM movies"
+    if director:
+        query = f"{query} where director = '{director}'"
     with sqlite3.connect('database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM movies")
+        cursor.execute(query)
         movies = cursor.fetchall()
 
     conn.close()
@@ -71,19 +75,6 @@ def get_movies_with_image():
 
     conn.close()
     return jsonify(movies)
-
-
-@app.route("/api/movies_by_director/<director>", methods=['GET'])
-def get_movies_by_director(director):
-    with sqlite3.connect('database.db') as conn:
-        conn.row_factory = row_to_dict
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM movies WHERE director = ?", (director,))
-        movies = cursor.fetchall()
-
-    conn.close()
-    return jsonify(movies[0])
-
 
 @app.route("/api/movies/<id>", methods=['GET'])
 def get_movies_by_id(id):
@@ -104,11 +95,13 @@ def get_director():
         cursor = conn.cursor()
         cursor.execute(
             "SELECT DISTINCT director FROM movies GROUP BY director")
-        directors = cursor.fetchall()
-        flat_data = [item for sublist in directors for item in sublist]
+        directors_cursor = cursor.fetchall()
+        directors = []
+        for director in directors_cursor:
+            directors.append(director["director"])
 
     conn.close()
-    return jsonify(flat_data)
+    return jsonify(directors)
 
 
 @app.route("/api/genres", methods=['GET'])
