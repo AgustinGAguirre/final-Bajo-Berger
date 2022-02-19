@@ -4,10 +4,16 @@ from http import HTTPStatus
 import sys
 import sys
 import sqlite3
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 CORS(app)
-app.config["JWT_SECRET"] = "super-secret"
+jwt = JWTManager(app)
+
+app.config["JWT_SECRET_KEY"] = "super-secret"
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 USERS = dict()
@@ -43,7 +49,8 @@ def login():
         return jsonify(), HTTPStatus.BAD_REQUEST
 
     if USERS[username] == password:
-        return jsonify({"token": "XXX"})
+        token = create_access_token(identity=username)
+        return jsonify({"token": token})
 
     return jsonify(), HTTPStatus.BAD_REQUEST
 
@@ -161,6 +168,7 @@ def update_movie(id):
 
 
 @app.route("/api/movies/<id>", methods=['DELETE'])
+
 def delete_movie(id):
     try:
         with sqlite3.connect('database.db') as conn:
