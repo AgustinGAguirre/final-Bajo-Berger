@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Christmas tree</title>
+    <style>
+      /* Write your CSS solution here */
+    </style>
+    <script>
+      // React is loaded and is available as React and ReactDOM
+      // imports should NOT be used
+      const List = (props) => {
+        const { items } = props;
+        const [orderedItems, setOrderedItems] = React.useState(items);
+        // Yоur cоdе gоеs hеrе
+        function handleClick(selected) {
+          const rest = orderedItems.filter((item) => selected != item);
+          setOrderedItems([selected].concat(rest));
+        }
+
+        return (
+          <ul>
+            {orderedItems.map((item) => (
+              <li onClick={() => handleClick(item)}>{item}</li>
+            ))}
+          </ul>
+        );
+      };
+
+      document.body.innerHTML = "<div id='root'> </div>";
+
+      const rootElement = document.getElementById("root");
+      ReactDOM.render(<List items={["A", "B", "C"]} />, rootElement);
+
+      let listItem = document.querySelectorAll("li")[1];
+      if (listItem) {
+        listItem.click();
+      }
+      setTimeout(() => console.log(document.getElementById("root").innerHTML));
+    </script>
+  </head>
+  <body>
+    <div></div>
+  </body>
+</html>

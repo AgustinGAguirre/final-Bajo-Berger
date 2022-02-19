@@ -13,7 +13,7 @@ Inicializar y configurar base de datos
 ```
 
 
-Iniciar servidor
+Iniciar servidor en Mac
 
 ```
     export FLASK_APP=main.py
