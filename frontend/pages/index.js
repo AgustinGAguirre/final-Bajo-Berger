@@ -53,23 +53,29 @@ const Home = () => {
   return (
     <>
       <div id="container">
-        <aside id="peliculas">
-          <h2>Últimas 10 peliculas</h2>
-          Director:
-          <select onChange={handleChangeDirector}>
-            <option value="">TODOS</option>
-            {directors?.map((director) => (
-              <option value={director}>{director}</option>
-            ))}
-          </select>
+        <aside id="peliculas" style={{ maxWidth: "800px", margin: "auto" }}>
+          <div>
+            <h2>Últimas 10 peliculas</h2>
+            Director:
+            <select onChange={handleChangeDirector}>
+              <option value="">TODOS</option>
+              {directors?.map((director) => (
+                <option value={director}>{director}</option>
+              ))}
+            </select>
+          </div>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", flexWrap: "wrap" }}>
+            {!!movies && movies.map((movie) => (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", width: "200px", margin: "20px auto" }}>
+                <img src={movie.image} style={{ maxWidth: '200px' }} />
+                <h3>{movie.title}<br /> ({movie.director} {movie.year})</h3>
+                <br />
 
-          {!!movies && movies.map((movie) => (
-            <p>
-              {movie.title}
-              {isLoggedIn && <a href={`/movies/${movie.id}`}>editar</a>}
-              {isLoggedIn && <a href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>}
-            </p>
-          ))}
+                {isLoggedIn && <a href={`/movies/${movie.id}`}>editar</a>}
+                {isLoggedIn && <a href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>}
+              </div>
+            ))}
+          </div>
           <br />
           <p>{error}</p>
         </aside>

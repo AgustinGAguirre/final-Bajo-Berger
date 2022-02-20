@@ -67,6 +67,8 @@ const Movie = () => {
                             <br />
                             Imagen:  <input type="text" name="image" value={formik.values.image} onChange={formik.handleChange} />
                             <br />
+                            Preview Imagen:<br /> <img src={formik.values.image} style={{ maxWidth: '200px' }} />
+                            <br />
                             Sinopsis:  <textarea name="synopsis" value={formik.values.synopsis} onChange={formik.handleChange} />
                             <br />
                             <button type="submit">Guardar</button>
