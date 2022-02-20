@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/router'
 import axios from "axios";
 import { checkIfIsLoggedIn, getToken } from "../utils";
 
@@ -8,7 +9,7 @@ const Home = () => {
   const [selectedDirector, setSelectedDirector] = useState();
   const [error, setError] = useState("");
   let isLoggedIn = checkIfIsLoggedIn();
-
+  const router = useRouter();
   useEffect(async () => {
     await axios.get("http://127.0.0.1:5000/api/movies", {
       params: {
@@ -35,6 +36,20 @@ const Home = () => {
     setSelectedDirector(e.target.value);
   }
 
+  const handleDelete = async (id) => {
+    await axios.delete(`http://127.0.0.1:5000/api/movies/${id}`, {
+      headers: {
+        authorization: `Bearer ${getToken()}`
+      }
+    }).then((response) => {
+      router.reload(window.location.pathname)
+    }).catch((e) => {
+      console.error({ e });
+      setError("Hubo un problema al eliminar la pelicula");
+    });
+  }
+
+
   return (
     <>
       <div id="container">
@@ -50,7 +65,9 @@ const Home = () => {
 
           {!!movies && movies.map((movie) => (
             <p>
-              {movie.title} {isLoggedIn && <a href={`/movies/${movie.id}`}>editar</a>}
+              {movie.title}
+              {isLoggedIn && <a href={`/movies/${movie.id}`}>editar</a>}
+              {isLoggedIn && <a href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>}
             </p>
           ))}
           <br />

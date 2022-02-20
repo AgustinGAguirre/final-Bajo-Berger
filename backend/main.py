@@ -127,6 +127,7 @@ def get_generos():
 
 
 @app.route("/api/movies", methods=['POST'])
+@jwt_required()
 def post_movie():
     params = request.get_json()
     print("params: ", params)
@@ -172,6 +173,7 @@ def update_movie(id):
 
 
 @app.route("/api/movies/<id>", methods=['DELETE'])
+@jwt_required()
 def delete_movie(id):
     try:
         with sqlite3.connect('db/database.db') as conn:
