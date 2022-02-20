@@ -9,15 +9,24 @@ Correr el proyecto:
 Inicializar y configurar base de datos
 
 ```
-    python init_db.py
+    cd db
+    python3 init_db.py
 ```
 
 
-Iniciar servidor en Mac
+Iniciar servidor en Linux/Mac
 
 ```
     export FLASK_APP=main.py
     export FLASK_ENV=development
+    flask run
+```
+
+Iniciar servidor en Windows
+
+```
+    SET FLASK_APP=main.py
+    SET FLASK_ENV=development
     flask run
 ```
 

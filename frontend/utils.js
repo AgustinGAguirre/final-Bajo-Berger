@@ -1,3 +1,5 @@
+import jwt from 'jwt-decode';
+
 export const getToken = () => {
     if (typeof localStorage !== 'undefined') {
         return localStorage.getItem("token");
@@ -15,3 +17,18 @@ export const removeToken = (token) => {
         return localStorage.removeItem("token");
     }
 };
+
+export const checkIfIsLoggedIn = () => {
+    const token = getToken();
+
+    if (!token) {
+        return false;
+    }
+
+    const decodedToken = jwt(token, { complete: true });
+    var dateNow = new Date();
+    if (decodedToken.exp < Math.floor(dateNow.getTime() / 1000)) {
+        return false;
+    }
+    return true
+}

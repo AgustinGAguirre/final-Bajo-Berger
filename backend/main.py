@@ -22,7 +22,7 @@ USERS["agus"] = "abcd"
 
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('db/database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -62,7 +62,8 @@ def get_movies():
     query = "SELECT * FROM movies"
     if director:
         query = f"{query} where director = '{director}'"
-    with sqlite3.connect('database.db') as conn:
+    query = f"{query} limit 10"
+    with sqlite3.connect('db/database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
         cursor.execute(query)
@@ -74,7 +75,7 @@ def get_movies():
 
 @app.route("/api/movies_with_image", methods=['GET'])
 def get_movies_with_image():
-    with sqlite3.connect('database.db') as conn:
+    with sqlite3.connect('db/database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM movies WHERE image <> ''")
@@ -83,9 +84,10 @@ def get_movies_with_image():
     conn.close()
     return jsonify(movies)
 
+
 @app.route("/api/movies/<id>", methods=['GET'])
 def get_movies_by_id(id):
-    with sqlite3.connect('database.db') as conn:
+    with sqlite3.connect('db/database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM movies WHERE id = ?", (id,))
@@ -97,7 +99,7 @@ def get_movies_by_id(id):
 
 @app.route("/api/directors", methods=['GET'])
 def get_director():
-    with sqlite3.connect('database.db') as conn:
+    with sqlite3.connect('db/database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
         cursor.execute(
@@ -113,7 +115,7 @@ def get_director():
 
 @app.route("/api/genres", methods=['GET'])
 def get_generos():
-    with sqlite3.connect('database.db') as conn:
+    with sqlite3.connect('db/database.db') as conn:
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
         cursor.execute("SELECT DISTINCT genre FROM movies GROUP BY genre")
@@ -130,11 +132,11 @@ def post_movie():
     print("params: ", params)
 
     try:
-        with sqlite3.connect('database.db') as conn:
+        with sqlite3.connect('db/database.db') as conn:
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO movies (name, director, genre, image) VALUES (?, ?, ?, ?)",
-                           (params['name'], params['director'],
-                            params['genre'], params['image'])
+            cursor.execute("INSERT INTO movies (title, director, genre, image, synopsis) VALUES (?, ?, ?, ?, ?)",
+                           (params['title'], params['director'],
+                            params['genre'], params['image'], params['synopsis'])
                            )
             json_docs = []
             for doc in cursor:
@@ -149,29 +151,30 @@ def post_movie():
 
 
 @app.route("/api/movies/<id>", methods=['PUT'])
+@jwt_required()
 def update_movie(id):
     params = request.get_json()
 
     try:
-        with sqlite3.connect('database.db') as conn:
+        with sqlite3.connect('db/database.db') as conn:
             cursor = conn.cursor()
-            cursor.execute("UPDATE movies SET name = ?, director = ?, genre = ?, image = ? WHERE id = ?",
-                           (params['name'], params['director'],
-                            params['genre'], params['image'], id)
+            cursor.execute("UPDATE movies SET title = ?, director = ?, genre = ?, image = ?, synopsis = ? WHERE id = ?",
+                           (params['title'], params['director'],
+                            params['genre'], params['image'], params['synopsis'], id)
                            )
             conn.commit()
             return jsonify({"ok": True}), HTTPStatus.CREATED
     except Exception as e:
         exc_info = sys.exc_info()
+        print(e)
         print(exc_info)
         return jsonify({"error": "No se pudo crear la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
 @app.route("/api/movies/<id>", methods=['DELETE'])
-
 def delete_movie(id):
     try:
-        with sqlite3.connect('database.db') as conn:
+        with sqlite3.connect('db/database.db') as conn:
             cursor = conn.cursor()
             cursor.execute("DELETE from movies where id = ?", (id,))
             conn.commit()

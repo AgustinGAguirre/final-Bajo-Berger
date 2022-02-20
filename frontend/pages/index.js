@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { getToken } from "../utils";
+import { checkIfIsLoggedIn, getToken } from "../utils";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [directors, setDirectors] = useState([]);
   const [selectedDirector, setSelectedDirector] = useState();
   const [error, setError] = useState("");
+  let isLoggedIn = checkIfIsLoggedIn();
 
   useEffect(async () => {
     await axios.get("http://127.0.0.1:5000/api/movies", {
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-      },
       params: {
         director: selectedDirector
       }
@@ -25,11 +23,7 @@ const Home = () => {
   }, [selectedDirector])
 
   useEffect(async () => {
-    await axios.get("http://127.0.0.1:5000/api/directors", {
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-      }
-    }).then((response) => {
+    await axios.get("http://127.0.0.1:5000/api/directors").then((response) => {
       setDirectors(response.data);
     }).catch((e) => {
       console.error(e);
@@ -56,7 +50,7 @@ const Home = () => {
 
           {!!movies && movies.map((movie) => (
             <p>
-              {movie.name}
+              {movie.title} {isLoggedIn && <a href={`/movies/${movie.id}`}>editar</a>}
             </p>
           ))}
           <br />
