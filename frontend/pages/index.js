@@ -67,7 +67,7 @@ const Home = () => {
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", flexWrap: "wrap" }}>
             {!!movies && movies.map((movie) => (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", width: "200px", margin: "20px auto" }}>
-                <img src={movie.image} style={{ maxWidth: '200px' }} />
+                <img src={movie.image} style={{ maxWidth: '500px' }} />
                 <h3>{movie.title}<br /> ({movie.director} {movie.year})</h3>
                 <br />
 

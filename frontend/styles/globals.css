@@ -1,3 +1,7 @@
+* {
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
 body {
   width: 100vw;
   height: 100vh;
@@ -13,6 +17,7 @@ header {
 header > img {
   margin-top: 1%;
   margin-left: 1%;
+
 }
 
 h1 {
@@ -54,26 +59,6 @@ a {
   margin-top: 2%;
 }
 
-#nuevo {
-  background-color: rgb(116, 116, 116);
-  display: flex;
-  width: 100%;
-  margin-top: 2%;
-}
-
-#series {
-  background-color: rgb(116, 116, 116);
-  display: flex;
-  width: 100%;
-  margin-top: 2%;
-}
-
-#perfil {
-  background-color: rgb(116, 116, 116);
-  display: flex;
-  width: 100%;
-  margin-top: 2%;
-}
 
 h2 {
   font-size: 30px;
@@ -81,3 +66,4 @@ h2 {
   padding-left: 5px;
   padding-right: 15px;
 }
+
