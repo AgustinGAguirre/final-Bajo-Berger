@@ -8,6 +8,8 @@ const Movie = () => {
     const { id } = router.query;
     const [movie, setMovie] = useState([]);
     const [error, setError] = useState("");
+    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState([]);
     let isLoggedIn = checkIfIsLoggedIn();
     const initialValues = {
         title: movie.title,
@@ -21,7 +23,7 @@ const Movie = () => {
         initialValues,
         enableReinitialize: true,
         onSubmit: async values => {
-            await axios.put(`http://127.0.0.1:5000/api/movies/${id}`, values, {
+            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}`, values, {
                 headers: {
                     authorization: `Bearer ${getToken()}`
                 }
@@ -40,7 +42,7 @@ const Movie = () => {
 
     useEffect(async () => {
         if (!id) return;
-        await axios.get(`http://127.0.0.1:5000/api/movies/${id}`, {
+        await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}`, {
             headers: {
                 authorization: `Bearer ${getToken()}`
             }
@@ -50,7 +52,31 @@ const Movie = () => {
             console.error({ e });
             setError("Hubo un problema al obtener la pelicula, por favor intentelo nuevamente");
         });
+
+        await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}/comments`, {
+            headers: {
+                authorization: `Bearer ${getToken()}`
+            }
+        }).then((response) => {
+            setComments(response.data);
+        }).catch((e) => {
+            console.error({ e });
+            setError("Hubo un problema al obtener la pelicula, por favor intentelo nuevamente");
+        });
     }, [id])
+
+    const handleAddComment = async () => {
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}/comments`, { comment }, {
+            headers: {
+                authorization: `Bearer ${getToken()}`
+            }
+        }).then(movie => {
+            router.reload(window.location.pathname)
+        }).catch((e) => {
+            console.error({ e });
+            setError("Hubo un problema al crear el comentario");
+        });
+    }
 
     return (
         <>
@@ -72,6 +98,20 @@ const Movie = () => {
                             Sinopsis:  <textarea name="synopsis" value={formik.values.synopsis} onChange={formik.handleChange} />
                             <br />
                             <button type="submit">Guardar</button>
+                            <br />
+                            <br />
+
+
+                            <div>
+                                <textarea name="comment" onChange={(e) => setComment(e.target.value)}>{comment}</textarea>
+                                <br />
+                                <button type="button" onClick={handleAddComment}>Agregar comentario</button>
+                            </div>
+
+                            <h2>Comentarios</h2>
+                            {comments?.map(comment => (
+                                <p>{comment.description}</p>
+                            ))}
                         </p>
                         <br />
                         <p>{error}</p>

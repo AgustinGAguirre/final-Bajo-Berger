@@ -10,7 +10,7 @@ const Login = () => {
     e.preventDefault();
     removeToken();
     try {
-      const response = await axios.post("http://127.0.01:5000/api/login", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
         username,
         password
       });

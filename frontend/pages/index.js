@@ -11,7 +11,7 @@ const Home = () => {
   let isLoggedIn = checkIfIsLoggedIn();
   const router = useRouter();
   useEffect(async () => {
-    await axios.get("http://127.0.0.1:5000/api/movies", {
+    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/movies`, {
       params: {
         director: selectedDirector
       }
@@ -24,7 +24,7 @@ const Home = () => {
   }, [selectedDirector])
 
   useEffect(async () => {
-    await axios.get("http://127.0.0.1:5000/api/directors").then((response) => {
+    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/directors`).then((response) => {
       setDirectors(response.data);
     }).catch((e) => {
       console.error(e);
@@ -37,7 +37,7 @@ const Home = () => {
   }
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://127.0.0.1:5000/api/movies/${id}`, {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}`, {
       headers: {
         authorization: `Bearer ${getToken()}`
       }

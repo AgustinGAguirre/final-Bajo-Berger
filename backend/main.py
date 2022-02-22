@@ -172,6 +172,41 @@ def update_movie(id):
         return jsonify({"error": "No se pudo crear la pelicula"}), HTTPStatus.BAD_REQUEST
 
 
+@app.route("/api/movies/<id>/comments", methods=['GET'])
+@jwt_required()
+def get_comments(id):
+    user = get_jwt_identity()
+    print("user", user)
+    with sqlite3.connect('db/database.db') as conn:
+        conn.row_factory = row_to_dict
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT description FROM comments where user=? and movie_id=?", (user, id))
+        comments = cursor.fetchall()
+
+    conn.close()
+    return jsonify(comments)
+
+
+@app.route("/api/movies/<id>/comments", methods=['POST'])
+@jwt_required()
+def add_comment(id):
+    params = request.get_json()
+
+    try:
+        with sqlite3.connect('db/database.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO comments (description, movie_id, user) VALUES (?, ?, ?)",
+                           (params['comment'], id, get_jwt_identity())
+                           )
+            conn.commit()
+            return jsonify(), HTTPStatus.CREATED
+    except Exception as e:
+        exc_info = sys.exc_info()
+        print(exc_info)
+        return jsonify({"error": "No se pudo crear el comentario"}), HTTPStatus.BAD_REQUEST
+
+
 @app.route("/api/movies/<id>", methods=['DELETE'])
 @jwt_required()
 def delete_movie(id):
