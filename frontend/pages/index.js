@@ -53,7 +53,7 @@ const Home = () => {
   return (
     <>
       <div id="container">
-        <aside id="peliculas" style={{ maxWidth: "800px", margin: "auto" }}>
+        <aside id="peliculas" style={{ margin: "auto" }}>
           <div>
             <h2>Últimas 10 peliculas</h2>
             Director:
@@ -66,8 +66,8 @@ const Home = () => {
           </div>
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", flexWrap: "wrap" }}>
             {!!movies && movies.map((movie) => (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black", width: "200px", margin: "20px auto" }}>
-                <img src={movie.image} style={{ width: "200px" }} />
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid black",  margin: "20px auto" }}>
+                <img src={movie.image}/>
                 <h3>{movie.title}<br /> ({movie.director} {movie.year})</h3>
                 <br />
 
