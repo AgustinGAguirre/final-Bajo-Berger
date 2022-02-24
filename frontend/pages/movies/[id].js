@@ -80,22 +80,22 @@ const Movie = () => {
 
     return (
         <>
-            <div id="container">
+            <div id="container-details">
                 <aside id="peliculas">
                     <form onSubmit={formik.handleSubmit}>
                         <h2>Pelicula: {movie.title}</h2>
-                        <p>
-                            Titulo:  <input type="text" name="title" value={formik.values.title} onChange={formik.handleChange} />
+                        <p id="details">
+                            <p>Titulo:</p>  <input type="text" name="title" value={formik.values.title} onChange={formik.handleChange} />
                             <br />
-                            Director:  <input type="text" name="director" value={formik.values.director} onChange={formik.handleChange} />
+                            <p>Director:</p>  <input type="text" name="director" value={formik.values.director} onChange={formik.handleChange} />
                             <br />
-                            Genero:  <input type="text" name="genre" value={formik.values.genre} onChange={formik.handleChange} />
+                            <p>Genero:</p>  <input type="text" name="genre" value={formik.values.genre} onChange={formik.handleChange} />
                             <br />
-                            Imagen:  <input type="text" name="image" value={formik.values.image} onChange={formik.handleChange} />
+                            <p>Imagen:</p>  <input type="text" name="image" value={formik.values.image} onChange={formik.handleChange} />
                             <br />
-                            Preview Imagen:<br /> <img src={formik.values.image} style={{ maxWidth: '200px' }} />
+                            <p>Preview Imagen:</p> <br /> <img src={formik.values.image} style={{ maxWidth: '200px' }} />
                             <br />
-                            Sinopsis:  <textarea name="synopsis" value={formik.values.synopsis} onChange={formik.handleChange} />
+                            <p>Sinopsis:</p>  <textarea name="synopsis" value={formik.values.synopsis} onChange={formik.handleChange} />
                             <br />
                             <button type="submit">Guardar</button>
                             <br />

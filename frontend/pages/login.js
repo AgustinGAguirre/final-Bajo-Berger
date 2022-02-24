@@ -34,10 +34,10 @@ const Login = () => {
           <h2>Login</h2>
           <br />
           <form action="/login" method="POST" onSubmit={login}>
-            <p>Usuario: <input type="text" onChange={e => setUsername(e.target.value)} name="username" /></p>
-            <p>Contraseña: <input type="password" onChange={e => setPassword(e.target.value)} name="password" /></p>
+            <p className="user-passw">Usuario: <input type="text" onChange={e => setUsername(e.target.value)} name="username" /></p>
+            <p className="user-passw">Contraseña: <input type="password" onChange={e => setPassword(e.target.value)} name="password" /></p>
             {!!error && (<p>{error}</p>)}
-            <button type="submit">Ingresar</button>
+            <button className="button" type="submit">Ingresar</button>
           </form>
         </aside>
       </div>

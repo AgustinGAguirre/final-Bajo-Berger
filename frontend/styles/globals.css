@@ -26,22 +26,21 @@ h1 {
 }
 
 nav {
-  background-color: rgb(75, 75, 75);
+  background-color: rgb(49, 49, 49);
   text-align: center;
 }
 
 .home-login {
   background-color: rgb(75, 75, 75);
   text-decoration: none;
-  color: red;
+  color: whitesmoke;
   margin: 1% 1% 1% 1%;
   font-size: 20px;
   text-indent:0;
-	border:1px solid #d02718;
+	border:2px solid #d02718;
   border-radius: 12% 12% 12% 12%;
 	display:inline-flex;
 	font-family:Verdana;
-	font-size:14px;
 	font-weight:bold;
 	font-style:normal;
   height:80px;
@@ -51,8 +50,8 @@ nav {
 	align-items :center;
   align-content: center;
   justify-content: center;
-	text-shadow:1px 1px 0px #810e05;
-  margin-bottom: 2px;
+	text-shadow:2px 1px 0px #810e05;
+  margin-bottom: 1%;
 }
 
 #peliculas {
@@ -68,15 +67,28 @@ nav {
   border-bottom: 0px;
 }
 
+#container {
+  margin-bottom: 2%;
+}
+
 #login {
-  background-color: rgb(116, 116, 116);
+  background-color: rgb(75, 75, 75);
+  text-decoration: none;
+  color: whitesmoke;
   display: flex;
   flex-direction: column;
   width: 100%;
   text-align: center;
   margin-top: 2%;
+  font-size: 20px;
+  text-indent:0;
+	border:2px solid #d02718;
+  margin-bottom: 2%;
 }
 
+.button {
+  margin-bottom: 2%;
+}
 
 h2 {
   font-size: 30px;
@@ -138,4 +150,32 @@ h2 {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap; 
+}
+
+.director {
+  color: whitesmoke;
+}
+
+.lista-directores {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.user-passw {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#details {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 2%;
+}
+
+#container-details {
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

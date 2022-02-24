@@ -56,9 +56,9 @@ const Home = () => {
         <aside id="peliculas" style={{ margin: "auto" }}>
           <div>
             <h2 className="ultimas-peliculas">Últimas 10 peliculas</h2>
-            Director:
+            <h3 className="director">Director:</h3>
             <select onChange={handleChangeDirector}>
-              <option value="">TODOS</option>
+              <option className="lista-directores" value="">TODOS</option>
               {directors?.map((director) => (
                 <option value={director}>{director}</option>
               ))}
