@@ -62,7 +62,7 @@ const Movie = () => {
                         <div>
                             <textarea name="comment" onChange={(e) => setComment(e.target.value)}>{comment}</textarea>
                             <br />
-                            <button type="button" onClick={handleAddComment}>Agregar comentario</button>
+                            <button className="boton-accion" type="button" onClick={handleAddComment}>Agregar comentario</button>
                         </div>
                         <h2>Comentarios</h2>
                         {comments?.map(comment => (
