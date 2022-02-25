@@ -55,7 +55,7 @@ const Home = () => {
       <div id="container">
         <aside id="peliculas" style={{ margin: "auto" }}>
           <div>
-            <h2 className="ultimas-peliculas">Últimas 10 peliculas</h2>
+            <h2 className="title">Últimas 10 peliculas</h2>
             <h3 className="director">Director:</h3>
             <select onChange={handleChangeDirector}>
               <option className="lista-directores" value="">TODOS</option>
@@ -64,15 +64,16 @@ const Home = () => {
               ))}
             </select>
           </div>
-          <div className="background" style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", flexWrap: "wrap" }}>
+          <div className="background">
             {!!movies && movies.map((movie) => (
               <div className="img-container">
-                <img className="images" src={movie.image}/>
-                <h3>{movie.title}<br /> ({movie.director} {movie.year})</h3>
-                <br />
+                <img className="cover" src={movie.image}/>
+                <div className="movie-title">{movie.title}<br /> ({movie.director} {movie.year})</div>
 
+                <div className="editar-eliminar-container">
                 {isLoggedIn && <a className="editar-eliminar" href={`/movies/${movie.id}`}>editar</a>}
                 {isLoggedIn && <a className="editar-eliminar" href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>}
+                </div>
               </div>
             ))}
           </div>

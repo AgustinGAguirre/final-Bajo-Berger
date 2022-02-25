@@ -1,5 +1,5 @@
 * {
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
@@ -13,13 +13,11 @@ header {
 }
 
 header > img {
-  margin-top: 1%;
-  margin-left: 1%;
+  margin: 20px;
 }
 
 h1 {
-  margin: 0;
-  margin-left: 29%;
+  margin: auto;
   font-size: 100px;
   margin-top: 0;
   margin-bottom: 0;
@@ -30,28 +28,19 @@ nav {
   text-align: center;
 }
 
-.home-login {
+.menu-item {
   background-color: rgb(75, 75, 75);
   text-decoration: none;
   color: whitesmoke;
-  margin: 1% 1% 1% 1%;
-  font-size: 20px;
-  text-indent:0;
-	border:2px solid #d02718;
-  border-radius: 12% 12% 12% 12%;
-	display:inline-flex;
-	font-family:Verdana;
-	font-weight:bold;
-	font-style:normal;
-  height:80px;
-	line-height:80px;
-  width:160px;
-	text-decoration:none;
-	align-items :center;
-  align-content: center;
+  margin: 10px;
+  border: 2px solid #d02718;
+  border-radius: 5px;
+  display: inline-flex;
+  font-family: Verdana;
+  font-weight: bold;
+  font-style: normal;
+  padding: 10px;
   justify-content: center;
-	text-shadow:2px 1px 0px #810e05;
-  margin-bottom: 1%;
 }
 
 #peliculas {
@@ -60,11 +49,15 @@ nav {
   width: 100%;
   text-align: center;
   margin-top: 2%;
-  box-shadow: 9px 9px 26px -10px rgba(0,0,0,0.55) inset;
+  box-shadow: 9px 9px 26px -10px rgba(0, 0, 0, 0.55) inset;
   flex-direction: row;
   justify-content: flex-start;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   border-bottom: 0px;
+}
+
+#peliculas .title {
+  color: lightgray;
 }
 
 #container {
@@ -81,8 +74,8 @@ nav {
   text-align: center;
   margin-top: 2%;
   font-size: 20px;
-  text-indent:0;
-	border:2px solid #d02718;
+  text-indent: 0;
+  border: 2px solid #d02718;
   margin-bottom: 2%;
 }
 
@@ -97,59 +90,64 @@ h2 {
   padding-right: 15px;
 }
 
-.images {
-  border-radius: 12% 12% 0 0;
-  object-fit: cover;
-}
 
 .img-container {
   color: grey;
-  background-color: crimson;
+  background-color: white;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   border: 1px solid black;
-  border-radius: 10%;
   margin: 20px auto;
-  box-shadow: 0px -100px 100px 14px #000 inset;
+  border-radius: 12px 12px;
+}
+
+.img-container .movie-title {
+  font-size: 20px;
+  word-break: break-all;
+  color: darkred;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.img-container > .cover {
+  border-radius: 10px 10px 0 0;
+}
+
+.editar-eliminar-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .editar-eliminar {
-  text-indent:0;
-	border:1px solid #d02718;
-  border-radius: 12% 12% 12% 12%;
-	display:inline;
-	color:red;
-	font-family:Verdana;
-	font-size:14px;
-	font-weight:bold;
-	font-style:normal;
-  height:30px;
-	line-height:30px;
-  width:68px;
-	text-decoration:none;
-	text-align:center;
-	text-shadow:1px 1px 0px #810e05;
-  margin-bottom: 2px;
-  box-shadow: 9px 9px 26px -10px rgba(0,0,0,0.55) inset;
+  background-color: rgb(75, 75, 75);
+  text-decoration: none;
+  color: whitesmoke;
+  margin: 10px;
+  border: 2px solid #d02718;
+  border-radius: 5px;
+  display: inline-flex;
+  font-family: Verdana;
+  font-weight: bold;
+  font-style: normal;
+  padding: 10px;
+  justify-content: center;
 }
 
 .editar-eliminar:hover {
-	background-color:#c62d1f;
-  color: darkgray;
+  background-color: #c62d1f;
 }
 
 .editar-eliminar:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }
 
 .background {
-  box-shadow: 9px 9px 26px -10px rgba(0,0,0,0.55);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .director {

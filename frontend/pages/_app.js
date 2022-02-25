@@ -22,12 +22,12 @@ function MyApp({ Component, pageProps }) {
       </header>
 
       <nav>
-        <a className='home-login' href="/">Home</a>
+        <a className='menu-item' href="/">Home</a>
         {!isLoggedIn && (
-          <a className='home-login' href="/login">Login</a>
+          <a className='menu-item' href="/login">Login</a>
         )}
         {isLoggedIn && (
-          <a className='home-login' href="#" onClick={handleLogout}>Logout</a>
+          <a className='menu-item' href="#" onClick={handleLogout}>Logout</a>
         )}
 
       </nav>
