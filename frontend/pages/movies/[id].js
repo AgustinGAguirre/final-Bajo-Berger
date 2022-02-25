@@ -8,7 +8,6 @@ const Movie = () => {
     const { id } = router.query;
     const [movie, setMovie] = useState([]);
     const [error, setError] = useState("");
-    const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
     let isLoggedIn = checkIfIsLoggedIn();
     const initialValues = {
@@ -65,18 +64,20 @@ const Movie = () => {
         });
     }, [id])
 
-    const handleAddComment = async () => {
-        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}/comments`, { comment }, {
+    const handleDelete = async (id) => {
+        await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}`, {
             headers: {
                 authorization: `Bearer ${getToken()}`
             }
-        }).then(movie => {
-            router.reload(window.location.pathname)
+        }).then((response) => {
+            router.push("/")
         }).catch((e) => {
             console.error({ e });
-            setError("Hubo un problema al crear el comentario");
+            setError("Hubo un problema al eliminar la pelicula");
         });
     }
+
+
 
     return (
         <>
@@ -97,21 +98,8 @@ const Movie = () => {
                             <br />
                             <p>Sinopsis:</p>  <textarea name="synopsis" value={formik.values.synopsis} onChange={formik.handleChange} />
                             <br />
-                            <button type="submit">Guardar</button>
-                            <br />
-                            <br />
-
-
-                            <div>
-                                <textarea name="comment" onChange={(e) => setComment(e.target.value)}>{comment}</textarea>
-                                <br />
-                                <button type="button" onClick={handleAddComment}>Agregar comentario</button>
-                            </div>
-
-                            <h2>Comentarios</h2>
-                            {comments?.map(comment => (
-                                <p>{comment.description}</p>
-                            ))}
+                            <button className="boton-accion" type="submit">Guardar</button>
+                            {<a className="boton-accion" href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>}
                         </p>
                         <br />
                         <p>{error}</p>

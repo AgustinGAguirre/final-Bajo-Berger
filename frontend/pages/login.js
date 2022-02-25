@@ -34,10 +34,18 @@ const Login = () => {
           <h2>Login</h2>
           <br />
           <form action="/login" method="POST" onSubmit={login}>
-            <p className="user-passw">Usuario: <input type="text" onChange={e => setUsername(e.target.value)} name="username" /></p>
-            <p className="user-passw">Contraseña: <input type="password" onChange={e => setPassword(e.target.value)} name="password" /></p>
+            Usuario
+            <br />
+            <input className="user-passw" type="text" onChange={e => setUsername(e.target.value)} name="username" />
+            <br />
+            <br />
+            Contraseña
+            <br />
+            <input className="user-passw" type="password" onChange={e => setPassword(e.target.value)} name="password" />
+            <br />
+            <br />
             {!!error && (<p>{error}</p>)}
-            <button className="button" type="submit">Ingresar</button>
+            <button className="boton-accion"  type="submit">Ingresar</button>
           </form>
         </aside>
       </div>

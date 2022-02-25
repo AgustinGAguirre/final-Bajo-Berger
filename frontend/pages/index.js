@@ -36,20 +36,7 @@ const Home = () => {
     setSelectedDirector(e.target.value);
   }
 
-  const handleDelete = async (id) => {
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}`, {
-      headers: {
-        authorization: `Bearer ${getToken()}`
-      }
-    }).then((response) => {
-      router.reload(window.location.pathname)
-    }).catch((e) => {
-      console.error({ e });
-      setError("Hubo un problema al eliminar la pelicula");
-    });
-  }
-
-
+  
   return (
     <>
       <div id="container">
@@ -70,9 +57,9 @@ const Home = () => {
                 <img className="cover" src={movie.image}/>
                 <div className="movie-title">{movie.title}<br /> ({movie.director} {movie.year})</div>
 
-                <div className="editar-eliminar-container">
-                {isLoggedIn && <a className="editar-eliminar" href={`/movies/${movie.id}`}>editar</a>}
-                {isLoggedIn && <a className="editar-eliminar" href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>}
+                <div className="boton-accion-container">
+                {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}`}>editar</a>}
+                {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}/comments`}>Agregar comentario</a>}
                 </div>
               </div>
             ))}
