@@ -59,7 +59,7 @@ const Home = () => {
 
                 <div className="boton-accion-container">
                 {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}`}>editar</a>}
-                {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}/comments`}>Agregar comentario</a>}
+                {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}/comments`}>Comentarios</a>}
                 </div>
               </div>
             ))}
