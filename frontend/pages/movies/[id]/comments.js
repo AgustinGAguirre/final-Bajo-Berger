@@ -58,13 +58,14 @@ const Movie = () => {
             <div id="container-details">
                 <aside id="peliculas">
                     <h2>Pelicula: {movie.title}</h2>
+                    <img src={movie.image}></img>
                     <p id="details">
                         <div>
                             <textarea name="comment" onChange={(e) => setComment(e.target.value)}>{comment}</textarea>
                             <br />
                             <button className="boton-accion" type="button" onClick={handleAddComment}>Agregar comentario</button>
                         </div>
-                        <h2>Comentarios</h2>
+                        <h2 className="comentarios">Comentarios</h2>
                         {comments?.map(comment => (
                             <p>{comment.description}</p>
                         ))}

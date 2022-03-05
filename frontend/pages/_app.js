@@ -13,6 +13,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <header>
         <img
+          className='logo-pagina'
           src="/images/nesflis.png"
           alt="Logo Nesflis"
           height="100px"
