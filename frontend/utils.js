@@ -32,3 +32,13 @@ export const checkIfIsLoggedIn = () => {
     }
     return true
 }
+
+export const getLoggedInUserId = () => {
+    const token = getToken();
+
+    if (!token) {
+        return "";
+    }
+
+    return jwt(token, { complete: true }).sub;
+}

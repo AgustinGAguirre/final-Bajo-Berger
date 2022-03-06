@@ -1,8 +1,9 @@
 import '../styles/globals.css'
-import { checkIfIsLoggedIn, removeToken } from '../utils';
+import { checkIfIsLoggedIn, removeToken, getLoggedInUserId } from '../utils';
 
 function MyApp({ Component, pageProps }) {
-  let isLoggedIn = checkIfIsLoggedIn();
+  const isLoggedIn = checkIfIsLoggedIn();
+  const user = getLoggedInUserId();
 
   const handleLogout = () => {
     removeToken();
@@ -25,10 +26,10 @@ function MyApp({ Component, pageProps }) {
       <nav>
         <a className='menu-item' href="/">Home</a>
         {!isLoggedIn && (
-          <a className='menu-item' href="/login">Login</a>
+          <a className='menu-item' href="/login">Ingresar</a>
         )}
         {isLoggedIn && (
-          <a className='menu-item' href="#" onClick={handleLogout}>Logout</a>
+          <a className='menu-item' href="#" onClick={handleLogout}>Cerrar sesión de {user}</a>
         )}
 
       </nav>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import axios from "axios";
-import { checkIfIsLoggedIn, getToken } from "../../utils";
+import { checkIfIsLoggedIn, getToken, getLoggedInUserId } from "../../utils";
 import { useFormik } from 'formik';
 const Movie = () => {
     const router = useRouter();
@@ -64,6 +64,7 @@ const Movie = () => {
         });
     }, [id])
 
+
     const handleDelete = async (id) => {
         await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/movies/${id}`, {
             headers: {
@@ -76,8 +77,8 @@ const Movie = () => {
             setError("Hubo un problema al eliminar la pelicula");
         });
     }
-
-
+    const userId = getLoggedInUserId();
+    const canDelete = isLoggedIn && !comments.some(comment => comment.user != userId);
 
     return (
         <>
@@ -99,7 +100,9 @@ const Movie = () => {
                             <p>Sinopsis:</p>  <textarea name="synopsis" value={formik.values.synopsis} onChange={formik.handleChange} />
                             <br />
                             <button className="boton-accion" type="submit">Guardar</button>
-                            {<a className="boton-accion" href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>}
+                            {canDelete && (
+                                <a className="boton-accion" href="#" onClick={() => handleDelete(movie.id)}>eliminar</a>
+                            )}
                         </p>
                         <br />
                         <p>{error}</p>
