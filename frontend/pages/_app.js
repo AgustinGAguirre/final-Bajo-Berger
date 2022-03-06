@@ -24,14 +24,19 @@ function MyApp({ Component, pageProps }) {
       </header>
 
       <nav>
+      {isLoggedIn && (
+          <>
+          <div style={{ color: "white", textTransform: "capitalize", paddingTop: "10px" }}>Bienvenido <b style={{color: "red"}}>{user}</b>!</div>
+          </>
+        )}
+        
         <a className='menu-item' href="/">Home</a>
         {!isLoggedIn && (
           <a className='menu-item' href="/login">Ingresar</a>
         )}
         {isLoggedIn && (
-          <a className='menu-item' href="#" onClick={handleLogout}>Cerrar sesión de {user}</a>
+          <a className='menu-item' href="#" onClick={handleLogout}>Cerrar sesión</a>
         )}
-
       </nav>
       <Component {...pageProps} />
       <footer></footer>
