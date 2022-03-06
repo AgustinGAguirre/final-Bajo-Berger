@@ -173,6 +173,15 @@ h2 {
   justify-content: center;
 }
 
+.comments-box {
+  border: 1px solid white;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 0 20px;
+  border-radius: 5px;
+  text-align: left;
+}
+
 @media (max-width: 768px) {
   .logo-pagina {
     display: none;

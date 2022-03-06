@@ -181,7 +181,7 @@ def get_comments(id):
         conn.row_factory = row_to_dict
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT description FROM comments where user=? and movie_id=?", (user, id))
+            "SELECT user, description FROM comments where user=? and movie_id=?", (user, id))
         comments = cursor.fetchall()
 
     conn.close()

@@ -67,7 +67,10 @@ const Movie = () => {
                         </div>
                         <h2 className="comentarios">Comentarios</h2>
                         {comments?.map(comment => (
-                            <p>{comment.description}</p>
+                            <div className="comments-box">
+                                <h3>{comment.user}:</h3>
+                                <p>{comment.description}</p>
+                            </div>
                         ))}
                     </p>
                     <br />
