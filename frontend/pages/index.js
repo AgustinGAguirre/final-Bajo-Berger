@@ -36,7 +36,7 @@ const Home = () => {
     setSelectedDirector(e.target.value);
   }
 
-  
+
   return (
     <>
       <div id="container">
@@ -54,12 +54,12 @@ const Home = () => {
           <div className="background">
             {!!movies && movies.map((movie) => (
               <div className="img-container">
-                <img className="cover" src={movie.image}/>
+                <img className="cover" src={movie.image || "http://via.placeholder.com/333x500"} />
                 <div className="movie-title">{movie.title}<br /> ({movie.director} {movie.year})</div>
 
                 <div className="boton-accion-container">
-                {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}`}>editar</a>}
-                {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}/comments`}>Comentarios</a>}
+                  {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}`}>editar</a>}
+                  {isLoggedIn && <a className="boton-accion" href={`/movies/${movie.id}/comments`}>Comentarios</a>}
                 </div>
               </div>
             ))}

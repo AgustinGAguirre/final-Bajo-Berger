@@ -100,6 +100,7 @@ h2 {
   border: 1px solid black;
   margin: 20px auto;
   border-radius: 12px 12px;
+  flex-basis: 20%;
 }
 
 .img-container .movie-title {
@@ -188,7 +189,7 @@ h2 {
   }
 
   h1 {
-    font-size:40px;
+    font-size: 40px;
   }
 
   h2 {
@@ -210,4 +211,16 @@ textarea {
   width: 350px;
   height: 200px;
   padding: 20px;
+}
+
+input, select {
+  border-radius: 5px;
+  height: 30px;
+  width: 400px;
+}
+@media (max-width: 768px) {
+  input, select {
+    width: 80%;
+    margin: auto;
+  }
 }

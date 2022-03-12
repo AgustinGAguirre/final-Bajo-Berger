@@ -10,6 +10,10 @@ function MyApp({ Component, pageProps }) {
     window.location = "/login";
   }
 
+  const handleCreate = () => {
+    window.location = "/movies/create";
+  }
+
   return (
     <>
       <header>
@@ -36,6 +40,9 @@ function MyApp({ Component, pageProps }) {
         )}
         {isLoggedIn && (
           <a className='menu-item' href="#" onClick={handleLogout}>Cerrar sesión</a>
+        )}
+        {isLoggedIn && (
+          <a className='menu-item' href="#" onClick={handleCreate}>Crear Película</a>
         )}
       </nav>
       <Component {...pageProps} />

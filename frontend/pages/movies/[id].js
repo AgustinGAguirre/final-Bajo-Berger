@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import axios from "axios";
 import { checkIfIsLoggedIn, getToken, getLoggedInUserId } from "../../utils";
 import { useFormik } from 'formik';
+import { DIRECTORS, GENRES, YEARS } from "./constants";
 const Movie = () => {
     const router = useRouter();
     const { id } = router.query;
@@ -89,9 +90,26 @@ const Movie = () => {
                         <p id="details">
                             <p>Titulo:</p>  <input type="text" name="title" value={formik.values.title} onChange={formik.handleChange} />
                             <br />
-                            <p>Director:</p>  <input type="text" name="director" value={formik.values.director} onChange={formik.handleChange} />
+                            <p>Director:</p>
+                            <select name="director" value={formik.values.director} onChange={formik.handleChange} >
+                                {DIRECTORS.map((director) => (
+                                    <option value={director}>{director}</option>
+                                ))}
+                            </select>
                             <br />
-                            <p>Genero:</p>  <input type="text" name="genre" value={formik.values.genre} onChange={formik.handleChange} />
+                            <p>Genero:</p>
+                            <select name="genre" value={formik.values.genre} onChange={formik.handleChange} >
+                                {GENRES.map((genre) => (
+                                    <option value={genre}>{genre}</option>
+                                ))}
+                            </select>
+                            <br />
+                            <p>Año:</p>
+                            <select name="year" value={formik.values.year} onChange={formik.handleChange} >
+                                {YEARS.map((year) => (
+                                    <option value={year}>{year}</option>
+                                ))}
+                            </select>
                             <br />
                             <p>Imagen:</p>  <input type="text" name="image" value={formik.values.image} onChange={formik.handleChange} />
                             <br />

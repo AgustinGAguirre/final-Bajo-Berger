@@ -135,9 +135,9 @@ def post_movie():
     try:
         with sqlite3.connect('db/database.db') as conn:
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO movies (title, director, genre, image, synopsis) VALUES (?, ?, ?, ?, ?)",
+            cursor.execute("INSERT INTO movies (title, director, genre, image, synopsis, year) VALUES (?, ?, ?, ?, ?, ?)",
                            (params['title'], params['director'],
-                            params['genre'], params['image'], params['synopsis'])
+                            params['genre'], params['image'], params['synopsis'], params['year'])
                            )
             json_docs = []
             for doc in cursor:
